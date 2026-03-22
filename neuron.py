@@ -18,9 +18,12 @@ def softmax(input):
     return softmax
 
 def main():
+
     result = layer([1, 2, 3], [[0.2, 0.4, 0.6], [0.1, 0.3, 0.5], [0.5, 0.2, 0.1], [0.3, 0.3, 0.3]], [-1, 0, 1, -0.5])
-    squish = softmax(result)
+    result2 = layer(result, [[0.2, 0.4, 0.6, 0.1], [0.1, 0.3, 0.5, 0.2], [0.5, 0.2, 0.1, 0.3], [0.3, 0.3, 0.3, 0.4]], [-1, 0, 1, -0.5])
+    squish = softmax(result2)
     print(result)
+    print(result2)
     print(squish)
 
 if __name__ == "__main__":
