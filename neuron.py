@@ -1,4 +1,10 @@
 import numpy as np
+from activations import softmax, sigmoid, sigmoid_derivative, cost, cost_derivative
+
+def activate(input, weight, bias):
+    x = np.dot(input, weight)
+    sigmoid = 1 / (1 + np.exp(-(x + bias)))
+    return sigmoid
 
 def layer(input, weight, bias):
     weight = np.array(weight)

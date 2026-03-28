@@ -1,10 +1,5 @@
 import numpy as np
 
-def activate(input, weight, bias):
-    x = np.dot(input, weight)
-    sigmoid = 1 / (1 + np.exp(-(x + bias)))
-    return sigmoid
-
 def softmax(input):
     summation = np.sum(np.exp(input))
     softmax = np.exp(input) / summation
