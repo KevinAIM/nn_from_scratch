@@ -1,4 +1,5 @@
 import numpy as np
+from activations import cost_derivative, sigmoid_derivative
 
 class Network:
     def __init__(self, sizes):
@@ -22,8 +23,35 @@ class Network:
 
         softmax = np.exp(input) / np.sum(np.exp(input))
         return softmax, activations, z_values
+    
+    def backward(self, input, actual, learning_rate):
+        original_input = np.array(input)
+        output, activations, z_values = self.forward(input)
+        delta = cost_derivative(output, actual)
+
+        for i in reversed(range(len(self.weights))):
+            delta *= sigmoid_derivative(z_values[i])
+            prev_activation = original_input if i == 0 else activations[i-1]
+            weight_gradient = np.outer(delta, prev_activation)
+            bias_gradient = delta
+
+            self.weights[i] -= learning_rate * weight_gradient
+            self.biases[i] -= learning_rate * bias_gradient
+
+            delta = np.dot(self.weights[i].T, delta)
+
+
 
 if __name__ == "__main__":
-    net = Network([784, 16, 16, 10])
-    output = net.forward(np.random.rand(784))
-    print(output)
+    net = Network([784, 128, 64, 10])
+    actual = np.zeros(10)
+    actual[3] = 1  # correct answer is digit 3
+
+    before = net.forward(np.random.rand(784))
+    print("before training:", before[0])
+
+    for i in range(1000):
+        net.backward(np.random.rand(784), actual, 0.1)
+
+    after = net.forward(np.random.rand(784))
+    print("after training:", after[0])
