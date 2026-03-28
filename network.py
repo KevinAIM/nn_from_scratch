@@ -10,12 +10,18 @@ class Network:
             self.biases.append(np.random.randn(sizes[i]))
 
     def forward(self, input):
+        activations = []
+        z_values = []
+
         for weight, bias in zip(self.weights, self.biases):
             x = np.dot(input, weight.T)
-            input = 1 / (1 + np.exp(-(x + bias)))
+            z_values.append(x)
+            activation = 1 / (1 + np.exp(-(x + bias)))
+            activations.append(activation)
+            input = activation
 
         softmax = np.exp(input) / np.sum(np.exp(input))
-        return softmax
+        return softmax, activations, z_values
 
 if __name__ == "__main__":
     net = Network([784, 16, 16, 10])
