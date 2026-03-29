@@ -7,7 +7,7 @@ class Network:
         self.weights = []
         self.biases = []
         for i in range(1,len(sizes)):
-            self.weights.append(np.random.randn(sizes[i], sizes[i-1]))
+            self.weights.append(np.random.randn(sizes[i], sizes[i-1]) * np.sqrt(1 / sizes[i-1]))
             self.biases.append(np.random.randn(sizes[i]))
 
     def forward(self, input):
@@ -55,3 +55,5 @@ if __name__ == "__main__":
 
     after = net.forward(np.random.rand(784))
     print("after training:", after[0])
+    prediction = np.argmax(after[0])
+    print("predicted digit:", prediction)
