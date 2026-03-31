@@ -1,5 +1,5 @@
 import numpy as np
-from activations import cost_derivative, sigmoid_derivative
+from activations import cost_derivative, sigmoid_derivative, relu, relu_derivative
 
 class Network:
     def __init__(self, sizes):
@@ -16,7 +16,7 @@ class Network:
 
         for weight, bias in zip(self.weights, self.biases):
             x = np.dot(input, weight.T)
-            z_values.append(x)
+            z_values.append(x + bias)
             activation = 1 / (1 + np.exp(-(x + bias)))
             activations.append(activation)
             input = activation
@@ -39,6 +39,12 @@ class Network:
             self.biases[i] -= learning_rate * bias_gradient
 
             delta = np.dot(self.weights[i].T, delta)
+
+            # # Update delta to take original weights into account for the next layer - old code meant for relu derivative
+            # original_weights = self.weights[i].copy()
+            # self.weights[i] -= learning_rate * weight_gradient
+            # self.biases[i] -= learning_rate * bias_gradient
+            # delta = np.dot(original_weights.T, delta)
 
 
 

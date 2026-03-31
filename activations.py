@@ -14,3 +14,9 @@ def cost(predicted, actual):
 
 def cost_derivative(predicted, actual):
     return 2 * (predicted - actual) / len(predicted)
+
+def relu(input):
+    return np.maximum(0, input)
+
+def relu_derivative(input):
+    return (input > 0).astype(float)
